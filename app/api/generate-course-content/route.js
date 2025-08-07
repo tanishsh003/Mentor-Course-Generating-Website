@@ -1,5 +1,5 @@
 
-import { ai } from "@/app/api/generate-course-layout/route";
+import {ai} from '@/lib/ai.js';
 import { db } from "@/config/db";
 import { coursesTable } from "@/config/schema";
 import { RawReferenceImage } from "@google/genai";
