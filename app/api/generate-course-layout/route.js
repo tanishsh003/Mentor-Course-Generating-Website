@@ -6,8 +6,9 @@ import { db } from '@/config/db';
 import axios from 'axios';
 import { coursesTable } from '@/config/schema';
 import { v4 as uuidv4 } from 'uuid';
-import { currentUser } from '@clerk/nextjs/server';
-const PROMPT =`Genrate Learning Course depends on following details. In which Make sure to add Course Name, Description,Course Banner Image Prompt (Create a modern, flat-style 2D digital illustration representing user Topic. Include UI/UX elements such as mockup screens, text blocks, icons, buttons, and creative workspace tools. Add symbolic elements related to user Course, like sticky notes, design components, and visual aids. Use a vibrant color palette (blues, purples, oranges) with a clean, professional look. The illustration should feel creative, tech-savvy, and educational, ideal for visualizing concepts in user Course) for Course Banner in 3d format Chapter Name, , Topic under each chapters , Duration for each chapters etc, in JSON format only
+import { auth, currentUser } from '@clerk/nextjs/server';
+import { eq } from 'drizzle-orm';
+const PROMPT =`Genrate Learning Course depends on following details. In which Make sure to add Course Name, Description,Course Banner Image Prompt (Create a modern, flat-style 2D digital illustration representing user Topic. Include UI/UX elements such as mockup screens, text blocks, icons, buttons, and creative workspace tools. Add symbolic elements related to user Course, like sticky notes, design components, and visual aids. Use a vibrant color palette (blues, purples, oranges) with a clean, professional look. The illustration should feel creative, tech-savvy, and educational, ideal for visualizing concepts in user Course) for Course Banner in 3d format Chapter Name, , Topic under each chapters , Duration for each chapters etc, in JSON format only and in pure, valid JSON format only (no markdown, no comments, no references, no footnotes)
 
 Schema:
 
@@ -37,9 +38,15 @@ Schema:
 , User Input: 
 
 `
+export const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+  });
 export async function POST(req){
   const {courseId,...formData}=await req.json();
   const user= await currentUser()
+
+  const {has}=await auth();
+  const hasPremiumAccess=has({plan: 'premium', organizationId: user?.primaryOrganizationId});
 
 
   
@@ -50,9 +57,7 @@ export async function POST(req){
 
 
 
-  const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY,
-  });
+    // const newai = ai
   const tools = [
     {
       googleSearch: {
@@ -75,6 +80,15 @@ export async function POST(req){
     },
   ];
 
+  // if user already created any course
+
+  if(!hasPremiumAccess){
+    const res=await db.select().from(coursesTable).where(eq(coursesTable.userEmail, user?.primaryEmailAddress?.emailAddress));
+
+    if(res?.length >=3){
+      return NextResponse.json({'resp':'Maximum Limit exceed'})
+    }
+  }
   const response = await ai.models.generateContent({
     model,
     config,
@@ -91,20 +105,22 @@ export async function POST(req){
   // const courseId=uuidv4()
 
   // Generate Image banner
-  const bannerImageUrl=GenerateImage(imagePrompt)
+  const bannerImageUrl=await GenerateImage(imagePrompt)
 
 
 
 
 
   // save to db
+  console.log(courseId)
+  
   console.log(courseId);
   
   const result=await db.insert(coursesTable).values({
     ...formData,
     courseJson:response.candidates[0].content.parts[0].text,
     userEmail:user?.primaryEmailAddress?.emailAddress,
-    cid:courseId
+    cid:courseId, bannerImageUrl:bannerImageUrl
   })
   return NextResponse.json({courseId:courseId})
   
@@ -125,8 +141,12 @@ const result = await axios.post(BASE_URL+'/api/generate-image',
                 'Content-Type': 'application/json', // Content Type
             },
         })
+
+console.log("below is bannerImageUrl");
+
 console.log(result.data.image) //Output Result: Base 64 Image
 return result.data.image
 }
+// export {ai}
 
 

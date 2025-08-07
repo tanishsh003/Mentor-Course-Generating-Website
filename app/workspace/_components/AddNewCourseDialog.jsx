@@ -22,6 +22,7 @@ import { Switch } from '@/components/ui/switch'
 import { Button } from '@/components/ui/button'
 import { Loader2Icon, Sparkle } from 'lucide-react'
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 // import { log } from 'console'
 const AddNewCourseDialog = ({children}) => {
   const [loading, setLoading] = useState(false);
@@ -61,6 +62,10 @@ const AddNewCourseDialog = ({children}) => {
       courseId:courseId
     })
     console.log(result.data);
+    if(result.data.resp=='Maximum Limit exceed'){
+      toast.warning('Please Subscribe the plan')
+      router.push('/workspace/billing')
+    }
     
     setLoading(false)
     router.push('/workspace/edit-course')

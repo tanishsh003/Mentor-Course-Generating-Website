@@ -9,7 +9,8 @@ export const usersTable = pgTable("users", {
 
 export const coursesTable=pgTable("courses", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  cid: varchar().notNull(),
+  cid: varchar({ length: 255 }).notNull().unique(),
+
 
   name:varchar(),
   description:varchar(),
@@ -20,5 +21,14 @@ export const coursesTable=pgTable("courses", {
   category:varchar(),
   courseJson:json(),
   bannerImageUrl:varchar().default('value'),
+  courseContent:json().default({}),
   userEmail: varchar('userEmail').references(()=>usersTable.email, { onDelete: 'cascade' }),
+})
+
+export const enrollCourseTable=pgTable('enrollCourse', {
+  id:  integer().primaryKey().generatedAlwaysAsIdentity(),
+cid: varchar('cid', { length: 255 }).references(() => coursesTable.cid),
+
+  userEmail: varchar('userEmail').references(()=>usersTable.email, { onDelete: 'cascade' }),
+  completedChapters:json()
 })

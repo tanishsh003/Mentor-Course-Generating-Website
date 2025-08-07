@@ -3,8 +3,8 @@ import CourseInfo from '@/app/workspace/edit-course/_components/CourseInfo'
 import axios from 'axios'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-
-const page = () => { 
+import ChapterTopicList from '@/app/workspace/edit-course/_components/ChapterTopicList'
+const EditCourse = ({viewCourse=false}) => { 
   const {courseId}=useParams()
   console.log(courseId);
   const [loading, setLoading]=useState(false)
@@ -31,11 +31,12 @@ const page = () => {
   
   return (
     <div>
-      <CourseInfo course={course}/>
+      <CourseInfo course={course} viewCourse={viewCourse}/>
+      <ChapterTopicList course={course}/>
       
       
     </div>
   )
 }
 
-export default page
+export default EditCourse

@@ -1,14 +1,14 @@
 import { Button } from "../components/ui/button.jsx";
 import Image from "next/image";
-
+import MainHeader from "./MainHeader.jsx";
+import Body from "./Body.jsx";
 export default function Home() {
   return (
     <div>
-      <h2>
-        Welcome to the Online Learning Platform
+      <MainHeader />
+      <Body/>
 
-      </h2>
-      <Button>New button</Button>
+      
 
     </div>
     

@@ -1,5 +1,6 @@
 "use client"
 import React from 'react'
+import { useRouter } from 'next/navigation'
 
 
 
@@ -31,18 +32,14 @@ const SidebarOptions=[{
 {
   title:'My Learning',
   icon:Book,
-  path:'/workspace/my-courses'
+  path:'/workspace/my-learning'
 },
 {
   title:'Explore Courses',
   icon:Compass,
   path:'/workspace/explore'
 },
-{
-  title:'AI Tools',
-  icon:PencilRulerIcon,
-  path:'/workspace/ai-tools'
-},
+
 {
   title:'Billing',
   icon:WalletCards,
@@ -55,18 +52,23 @@ const SidebarOptions=[{
 }
 ]
 export function AppSidebar() {
+  const router=useRouter()
   const path=usePathname()
   return (
     <Sidebar>
-      <SidebarHeader className={'p-4'} >
-        <Image src="/logo.svg" alt="logo" width={50} height={50} sizes="(max-width: 768px) 100vw, 120px" />
+      <SidebarHeader className={'p-4 items-center'} >
+        <Image onClick={()=>router.replace('/')}  src="/logo.svg" alt="logo" width={50} height={50} sizes="(max-width: 768px) 100vw, 120px" />
 
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup />
-        <AddNewCourseDialog>
-        <Button>Create New Course</Button>
-        </AddNewCourseDialog>
+      <SidebarContent className={'items-center w-full '}>
+        <SidebarGroup size={'lg'} />
+        <div className='w-full px-2'> {/* Ensure full width and optional horizontal padding */}
+          <AddNewCourseDialog>
+            <Button size='lg' className='w-full justify-start'>
+              Create New Course
+            </Button>
+          </AddNewCourseDialog>
+        </div>
         <SidebarGroup />
         <SidebarGroup>
           <SidebarGroupContent>

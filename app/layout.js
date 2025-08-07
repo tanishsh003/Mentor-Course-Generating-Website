@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "sonner";
 import  Provider  from "./provider.jsx";
 import {
   ClerkProvider,
@@ -35,6 +36,7 @@ export default function RootLayout({ children }) {
         <Provider>
           {children}
         </Provider>
+         <Toaster />
           
         
       </body>

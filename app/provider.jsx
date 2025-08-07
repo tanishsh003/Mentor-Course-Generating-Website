@@ -6,15 +6,18 @@ import React, { useEffect, useState } from 'react';
 // Make sure this path is correct for your project structure
 import { UserDetailContext } from '../context/UserDetailContext.jsx';
 
+import { SelectedChapterIndexContext } from '../context/SelectedChapterIndex.jsx';
+
 function Provider({ children }) {
-  // 1. Get the full loading and authentication status from useUser
+
   const { user, isSignedIn, isLoaded } = useUser();
-  
-  // 2. Correctly initialize your state
+ 
   const [userDetail, setUserDetail] = useState(null);
 
+  const [selectedChapterIndex, setSelectedChapterIndex] = useState(0);
+
   useEffect(() => {
-    // 3. Define the async function to create/get the user from your database
+    
     const createUserInDb = async () => {
       try {
         console.log("Sending user data to API:", {
@@ -49,7 +52,9 @@ function Provider({ children }) {
   // Provide the context value to all child components
   return (
     <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
+      <SelectedChapterIndexContext.Provider value={{selectedChapterIndex, setSelectedChapterIndex}} >
       {children}
+      </SelectedChapterIndexContext.Provider>
     </UserDetailContext.Provider>
   );
 }
