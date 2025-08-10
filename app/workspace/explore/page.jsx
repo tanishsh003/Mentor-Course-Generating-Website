@@ -7,6 +7,7 @@ import axios from 'axios'
 import CourseCard from '@/app/workspace/_components/CourseCard'
 import AddNewCourseDialog from '@/app/workspace/_components/AddNewCourseDialog'
 import { Skeleton } from '@/components/ui/skeleton'
+import Loader from '@/app/SmallLoader'
 const Explore = () => {
   const [courseList, setCourseList] = React.useState([])
   const [loading, setLoading] = useState(false)
@@ -35,13 +36,18 @@ const Explore = () => {
       setLoading(false)
     }
   }
+  if ( loading) {
+        return (
+          <Loader/>
+        );
+    }
   return (
     <div>
       <h2 className='font-bold text-2xl'>Explore Courses of your mates</h2>
-      <div className='flex flex-col gap-5 mt-3 max-w-lg' > 
+      {/* <div className='flex flex-col gap-5 mt-3 max-w-lg' > 
         <Input placeholder="Search" />
         <Button className='mt-3'>Search</Button>
-      </div>
+      </div> */}
       {/* {loading && (
               <div className='flex p-7 items-center justify-center flex-col border rounded-xl mt-2 bg-gray-600'>
                 <p>Loading courses...</p>

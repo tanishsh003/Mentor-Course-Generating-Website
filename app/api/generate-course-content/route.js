@@ -6,20 +6,22 @@ import { RawReferenceImage } from "@google/genai";
 import axios from "axios";
 import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
-const  PROMPT = `
+const PROMPT = `
 Generate HTML content for each topic within the provided chapter data.
 
 **IMPORTANT:** Your response MUST be a single, valid JSON object and nothing else. Do not include any introductory text, explanations, or markdown formatting like \`\`\`json.
 
+**CRITICAL INSTRUCTION:** While generating the content, you must identify and remove all citation markers. These look like numbers inside square brackets, for example [3] or [17, 18]. Do not include these markers in the final output for the 'chapterName' or the 'content'.
+
 Use this exact JSON schema:
 {
-  "chapterName": "string",
-  "topics": [
-    {
-      "topic": "string",
-      "content": "string (containing HTML)"
-    }
-  ]
+  "chapterName": "string",
+  "topics": [
+    {
+      "topic": "string",
+      "content": "string (containing HTML)"
+    }
+  ]
 }
 
 User Input:

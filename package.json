@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.28.1",
-    "@google/genai": "^1.10.0",
+    "@clerk/nextjs": "^6.30.0",
+    "@google/genai": "^1.13.0",
+    "@google/generative-ai": "^0.24.1",
     "@neondatabase/serverless": "^1.0.1",
     "@radix-ui/react-accordion": "^1.2.11",
+    "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-progress": "^1.1.7",
     "@radix-ui/react-select": "^2.2.5",

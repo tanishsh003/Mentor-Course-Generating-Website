@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { useUser } from '@clerk/nextjs';
+import { Search } from 'lucide-react';
 const Body = () => {
   const router=useRouter()
   const { isSignedIn } = useUser();
@@ -21,14 +22,18 @@ const Body = () => {
           </h2>
         </div>
         <div className="">
-          <p className="font-bold text-xl p-5 rounded-2xl border border-transparent shadow-sm transition-shadow duration-200 hover:shadow-[0_6px_20px_rgba(15,76,117,0.5)]">
-            Just type your topic, and we’ll create a curriculum, chapters,
-            lessons, and quizzes.
+          <p className=" flex gap-2 font-bold text-xl p-5 rounded-2xl border-1 border-[#0F4C75] shadow-sm transition-shadow duration-200 hover:shadow-[0_6px_20px_rgba(15,76,117,0.5)]"><Search size={"25px"} />
+            {/* Just type your topic, and we’ll create a curriculum, chapters,
+            lessons, and quizzes. */}
+            <TypingEffect text={"Just type your topic, and we'll create a curriculum, chapters,lessons, and quizzes."}/>
           </p>
         </div>
 
         {isSignedIn ? 
-        <div className=" w-md lg:w-lg flex flex-col items-center gap-10 border-3  border-[#3282B8] p-10 rounded-xl">
+        <div className=" w-md lg:w-lg flex flex-col items-center gap-10 
+    border-2 border-transparent hover:border-[#3282B8] 
+     shadow-none hover:shadow-[0_0_25px_rgba(50,130,184,0.6)] 
+    transition-all duration-200 p-10 rounded-xl">
           <h2 className=' items-center gap-5 mt-5 font-bold text-3xl'> Dive Into the world of <span className='text-[#3282B8]'>Mentor</span></h2>
           <Button
             className={"w-full transition-shadow duration-100 hover:shadow-[0_0_20px_rgba(15,76,117,0.5)]"}
@@ -38,7 +43,10 @@ const Body = () => {
           </Button>
         </div>
         :
-        <div className=" w-md lg:w-lg flex flex-col items-center gap-10 border-3  border-[#3282B8] p-10 rounded-lg">
+        <div className=" w-md lg:w-lg flex flex-col items-center gap-10 
+    border-2 border-transparent hover:border-[#3282B8] 
+    shadow-none hover:shadow-[0_0_25px_rgba(50,130,184,0.6)] 
+    transition-all duration-200 p-10 rounded-xl">
           <div> 
             <h2 className='  items-center gap-5 mt-5 font-bold text-3xl'>Please Sign In to Dive Into the world of <span className='text-[#3282B8]'>Mentor</span></h2>
           </div>

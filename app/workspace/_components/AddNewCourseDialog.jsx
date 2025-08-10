@@ -68,7 +68,7 @@ const AddNewCourseDialog = ({children}) => {
     }
     
     setLoading(false)
-    router.push('/workspace/edit-course')
+    router.push('/workspace/edit-course/'+result.data.courseId)
     }
     catch(e){
       setLoading(false);
@@ -100,7 +100,7 @@ const AddNewCourseDialog = ({children}) => {
       <DialogDescription asChild>
         <div className='flex flex-col gap-4 mt-3 text-xl text-gray-300'>
           <div>
-            <label>Course Name</label>
+            <label className='mb-3.5'>Course Name</label>
             <Input onChange={(event)=>onHandleInputChange('name', event.target.value)} placeholder='Course Name' />
           </div>
 

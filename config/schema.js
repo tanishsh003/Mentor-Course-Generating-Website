@@ -27,7 +27,7 @@ export const coursesTable=pgTable("courses", {
 
 export const enrollCourseTable=pgTable('enrollCourse', {
   id:  integer().primaryKey().generatedAlwaysAsIdentity(),
-cid: varchar('cid', { length: 255 }).references(() => coursesTable.cid),
+cid: varchar('cid', { length: 255 }).references(() => coursesTable.cid, {onDelete: 'cascade'}),
 
   userEmail: varchar('userEmail').references(()=>usersTable.email, { onDelete: 'cascade' }),
   completedChapters:json()

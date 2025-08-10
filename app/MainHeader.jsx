@@ -11,7 +11,7 @@ const router = useRouter();
   if (!isLoaded) return <Loading />;
 
   return (
-    <div className=" border-b-2 border-[#0F4C75] h-4 flex justify-between p-8 items-center bg-black">
+    <div className=" border-b-2 border-[#0F4C75] h-4 flex justify-between p-8 items-center bg-black shadow-[0_4px_15px_4px_rgba(15,76,117,0.5)]">
       <h3 ><Image src="/logo.svg" alt="logo" width={50} height={50} sizes="(max-width: 768px) 100vw, 120px" /></h3>
       {isSignedIn ? 
       <UserButton/> :
